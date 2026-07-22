@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lancy Lin</title>
+<style>
+  :root{
+    --lime-1:#d9ed92;
+    --lime-2:#b5e48c;
+    --green-1:#99d98c;
+    --green-2:#76c893;
+    --green-3:#52b69a;
+    --teal-1:#34a0a4;
+    --teal-2:#168aad;
+    --navy-1:#1a759f;
+    --navy-2:#1e6091;
+    --navy-3:#184e77;
+
+    --bg-light:#f8fbf4;
+    --text-dark:#0f2e3d;
+    --text-soft:#3c5a63;
+    --text-on-dark:#eef7ee;
+    --text-on-dark-soft:#c4dfd8;
+
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--text-dark);
+    background:var(--bg-light);
+    line-height:1.6;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Nav ---------- */
+  header.site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(24,78,119,0);
+    transition:background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+  }
+  header.site-nav.scrolled{
+    background:rgba(15,46,61,0.92);
+    backdrop-filter:blur(6px);
+    box-shadow:0 2px 18px rgba(0,0,0,0.15);
+    padding:12px 6vw;
+  }
+  .nav-name{
+    font-family:var(--serif);
+    font-size:1.15rem;
+    letter-spacing:0.03em;
+    color:var(--text-on-dark);
+    text-decoration:none;
+    font-weight:700;
+  }
+  nav.nav-links{
+    display:flex;
+    gap:clamp(14px,2.5vw,32px);
+  }
+  nav.nav-links a{
+    text-decoration:none;
+    color:var(--text-on-dark-soft);
+    font-size:0.85rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:6px 2px;
+    border-bottom:1px solid transparent;
+    transition:color 0.25s ease, border-color 0.25s ease;
+  }
+  nav.nav-links a:hover, nav.nav-links a:focus-visible{
+    color:var(--green-1);
+    border-color:var(--green-1);
+  }
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:1px solid var(--text-on-dark-soft);
+    color:var(--text-on-dark);
+    border-radius:6px;
+    padding:6px 10px;
+    font-size:0.9rem;
+    cursor:pointer;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    background:linear-gradient(150deg, var(--teal-2) 0%, var(--navy-2) 45%, var(--navy-3) 100%);
+    color:var(--text-on-dark);
+    padding:120px 6vw 80px;
+  }
+  .ripple-field{
+    position:absolute;
+    right:-8vw;
+    top:50%;
+    transform:translateY(-50%);
+    width:min(60vw, 620px);
+    height:min(60vw, 620px);
+    pointer-events:none;
+    opacity:0.9;
+  }
+  .ripple-field svg{width:100%;height:100%;}
+  .ripple{
+    fill:none;
+    stroke-width:1.4;
+    transform-origin:center;
+    animation:pulse 6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.15; transform:scale(0.94);}
+    50%{opacity:0.55; transform:scale(1.02);}
+  }
+
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    max-width:640px;
+  }
+  .eyebrow{
+    font-size:0.8rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--green-1);
+    margin-bottom:18px;
+    font-weight:600;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-size:clamp(2.6rem, 6vw, 4.4rem);
+    line-height:1.05;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+  }
+  .hero .headline{
+    font-size:clamp(1.05rem, 2vw, 1.35rem);
+    color:var(--text-on-dark-soft);
+    max-width:480px;
+    margin:0 0 34px;
+  }
+  .hero-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:linear-gradient(90deg, var(--green-2), var(--teal-1));
+    color:var(--text-on-dark);
+    text-decoration:none;
+    font-weight:700;
+    padding:13px 26px;
+    border-radius:999px;
+    font-size:0.95rem;
+    letter-spacing:0.02em;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow:0 8px 24px rgba(52,160,164,0.28);
+  }
+  .hero-cta:hover, .hero-cta:focus-visible{
+    background:linear-gradient(90deg, var(--teal-1), var(--navy-1));
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px rgba(26,117,159,0.32);
+  }
+
+  /* ---------- Section shell ---------- */
+  section{
+    padding:96px 6vw;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .section-label{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:0.78rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--navy-1);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .section-label::before{
+    content:"";
+    width:26px;
+    height:2px;
+    background:var(--teal-1);
+    display:inline-block;
+  }
+  h2.section-title{
+    font-family:var(--serif);
+    font-size:clamp(1.9rem, 3.4vw, 2.6rem);
+    margin:0 0 40px;
+    color:var(--navy-3);
+    max-width:640px;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .photo-wrap{
+    width:220px;
+    height:220px;
+    border-radius:24px;
+    overflow:hidden;
+    background:linear-gradient(160deg, var(--lime-2), var(--teal-1));
+    position:relative;
+    box-shadow:0 18px 40px rgba(24,78,119,0.18);
+  }
+  .photo-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .photo-fallback{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--serif);
+    font-size:3.2rem;
+    font-weight:700;
+    color:var(--text-on-dark);
+    letter-spacing:0.02em;
+  }
+  .about-text p{
+    color:var(--text-soft);
+    font-size:1.05rem;
+    max-width:620px;
+  }
+  .about-text p + p{margin-top:1.1em;}
+
+  /* ---------- Skills ---------- */
+  .skills-section{
+    background:linear-gradient(180deg, rgba(217,237,146,0.16), rgba(217,237,146,0) 60%);
+  }
+  .skills-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .skill-chips{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .skill-chip{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 20px;
+    border-radius:14px;
+    color:var(--text-on-dark);
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:0.01em;
+    box-shadow:0 8px 20px rgba(24,78,119,0.12);
+  }
+  .skill-chip span.dot{
+    width:10px;height:10px;border-radius:50%;
+    background:rgba(255,255,255,0.85);
+    flex-shrink:0;
+  }
+  .skill-chip:nth-child(1){background:linear-gradient(90deg, var(--green-3), var(--teal-1));}
+  .skill-chip:nth-child(2){background:linear-gradient(90deg, var(--teal-1), var(--teal-2));}
+  .skill-chip:nth-child(3){background:linear-gradient(90deg, var(--teal-2), var(--navy-1));}
+  .skill-chip:nth-child(4){background:linear-gradient(90deg, var(--navy-1), var(--navy-2));}
+
+  /* ---------- Research & Activities ---------- */
+  .activities-cols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+  }
+  .activity-group h3{
+    font-family:var(--serif);
+    font-size:1.3rem;
+    color:var(--navy-3);
+    margin:0 0 18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .activity-group h3::before{
+    content:"";
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--teal-1);
+    display:inline-block;
+  }
+  .activity-card{
+    background:#fff;
+    border:1px solid rgba(24,78,119,0.08);
+    border-left:4px solid var(--teal-1);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    box-shadow:0 6px 16px rgba(24,78,119,0.06);
+  }
+  .activity-card .title{
+    font-weight:700;
+    color:var(--text-dark);
+    font-size:0.98rem;
+  }
+  .activity-card .meta{
+    font-size:0.82rem;
+    color:var(--navy-1);
+    margin-top:4px;
+    letter-spacing:0.02em;
+  }
+  .activities-cols .activity-group:nth-child(2) .activity-card{
+    border-left-color:var(--green-3);
+  }
+
+  .badge-row{
+    margin-top:36px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:linear-gradient(90deg, var(--green-1), var(--teal-1));
+    padding:16px 22px;
+    border-radius:14px;
+    max-width:640px;
+  }
+  .badge-row .icon{
+    font-size:1.6rem;
+  }
+  .badge-row .text strong{display:block; font-size:0.95rem; color:var(--navy-3);}
+  .badge-row .text span{font-size:0.82rem; color:var(--text-soft);}
+
+  .activities-narrative{
+    color:var(--text-soft);
+    font-size:1.02rem;
+    max-width:760px;
+    margin-bottom:44px;
+  }
+
+  /* ---------- Contact ---------- */
+  footer.contact{
+    background:linear-gradient(150deg, var(--navy-3), var(--navy-2));
+    color:var(--text-on-dark);
+    padding:90px 6vw 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  footer.contact .ripple-field{
+    right:auto;
+    left:-10vw;
+    top:20%;
+    opacity:0.5;
+    width:min(46vw,480px);
+    height:min(46vw,480px);
+  }
+  .contact-inner{
+    position:relative;
+    z-index:2;
+    max-width:640px;
+  }
+  footer.contact h2{
+    font-family:var(--serif);
+    font-size:clamp(1.8rem,3.5vw,2.4rem);
+    margin:0 0 16px;
+  }
+  footer.contact p{
+    color:var(--text-on-dark-soft);
+    margin:0 0 28px;
+    max-width:460px;
+  }
+  .email-link{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:1.15rem;
+    font-weight:700;
+    text-decoration:none;
+    color:var(--green-1);
+    border-bottom:2px solid var(--green-1);
+    padding-bottom:4px;
+    transition:color 0.25s ease, border-color 0.25s ease;
+  }
+  .email-link:hover, .email-link:focus-visible{
+    color:var(--green-2);
+    border-color:var(--green-2);
+  }
+  .footer-note{
+    margin-top:56px;
+    font-size:0.78rem;
+    color:rgba(238,247,238,0.5);
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:820px){
+    nav.nav-links{
+      position:fixed;
+      top:0; right:0;
+      height:100vh;
+      width:min(78vw,300px);
+      background:rgba(15,46,61,0.98);
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      gap:26px;
+      padding:40px;
+      transform:translateX(100%);
+      transition:transform 0.35s ease;
+    }
+    nav.nav-links.open{transform:translateX(0);}
+    nav.nav-links a{font-size:1rem;}
+    .nav-toggle{display:inline-block;}
+    .about-grid, .skills-layout, .activities-cols{
+      grid-template-columns:1fr;
+    }
+    .photo-wrap{width:160px;height:160px;}
+    section{padding:72px 6vw;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <a href="#top" class="nav-name">Lancy Lin</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+  <nav class="nav-links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#skills">Skills</a>
+    <a href="#activities">Activities</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="ripple-field" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <circle class="ripple" cx="200" cy="200" r="60" stroke="#d9ed92" style="animation-delay:0s"></circle>
+      <circle class="ripple" cx="200" cy="200" r="100" stroke="#99d98c" style="animation-delay:0.6s"></circle>
+      <circle class="ripple" cx="200" cy="200" r="140" stroke="#52b69a" style="animation-delay:1.2s"></circle>
+      <circle class="ripple" cx="200" cy="200" r="180" stroke="#168aad" style="animation-delay:1.8s"></circle>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <p class="eyebrow">Basis International School Guangzhou &middot; Class of 2027</p>
+    <h1>Lancy Lin</h1>
+    <p class="headline">Student leader and behavioral economics researcher.</p>
+    <a class="hero-cta" href="#contact">Get in touch &rarr;</a>
+  </div>
+</section>
+
+<section id="about">
+  <p class="section-label reveal">About</p>
+  <h2 class="section-title reveal">A bit about me</h2>
+  <div class="about-grid reveal">
+    <div class="photo-wrap">
+      <img id="profilePhoto" src="photo.jpg" alt="Photo of Lancy Lin"
+        onerror="this.style.display='none'; document.getElementById('photoFallback').style.display='flex';">
+      <div class="photo-fallback" id="photoFallback" style="display:none;">LL</div>
+    </div>
+    <div class="about-text">
+      <p>I'm a rising senior at Basis International School Guangzhou (BIGZ). I'm involved in student leadership as president of the student council and our peer tutoring program, and I also help lead the Broadway Theatre Arts Club and Math Honor Society.</p>
+      <p>I'm interested in microeconomics and behavioral economics, particularly how individual firms affect local communities. My fieldwork has looked at learning spillover effects among students, and I'm currently exploring how AI is shaping consumer behavior, especially around intertemporal choice.</p>
+      <p>Outside of school, I run, sail, and enjoy discovering stories through travel, reading, and film. I'm a devoted fan of figure skating, musical theater, and stand-up comedy.</p>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <p class="section-label reveal">Focus</p>
+  <h2 class="section-title reveal">What I've been researching and building</h2>
+  <p class="activities-narrative reveal">My work splits between independent research and hands-on community leadership. In the classroom, I've run independent studies on how AI shapes consumer decision-making in tourism, how learning effects spill over between students in Tianhe District, and how Starbucks builds a "phygital" third place through its marketing. Outside the classroom, I've spent three years on Student Council and as a Prefect, and two years leading our peer tutoring program, roles that have taught me as much about listening as they have about leading.</p>
+  <div class="badge-row reveal">
+    <span class="icon">&#127942;</span>
+    <span class="text"><strong>Best Pitch Award</strong><span>Conrad Challenge</span></span>
+  </div>
+</section>
+
+<section id="skills" class="skills-section">
+  <p class="section-label reveal">Skills</p>
+  <h2 class="section-title reveal">How I like to work</h2>
+  <div class="skills-layout reveal">
+    <div class="skill-chips">
+      <div class="skill-chip"><span class="dot"></span>Digital Design</div>
+      <div class="skill-chip"><span class="dot"></span>Leadership</div>
+      <div class="skill-chip"><span class="dot"></span>Public Speaking</div>
+      <div class="skill-chip"><span class="dot"></span>Organizing Events</div>
+    </div>
+    <div class="about-text">
+      <p>Leading student organizations for the past three years has taught me how to turn ideas into action &mdash; from designing event graphics and presentation materials to speaking in front of the whole school. I plan and run events end-to-end, handling everything from budgeting and logistics to marketing, and I've learned that good leadership is less about having all the answers and more about making room for other people's ideas to work.</p>
+    </div>
+  </div>
+</section>
+
+<section id="activities">
+  <p class="section-label reveal">Activities</p>
+  <h2 class="section-title reveal">Research &amp; leadership</h2>
+  <div class="activities-cols reveal">
+    <div class="activity-group">
+      <h3>Research &amp; fieldwork</h3>
+      <div class="activity-card">
+        <div class="title">Lab study on AI and consumer intertemporal choice in tourism</div>
+      </div>
+      <div class="activity-card">
+        <div class="title">Fieldwork on learning spillover effects in Tianhe District</div>
+      </div>
+      <div class="activity-card">
+        <div class="title">Ethnography on Starbucks' "phygital" marketing as a third place</div>
+      </div>
+    </div>
+    <div class="activity-group">
+      <h3>Leadership &amp; service</h3>
+      <div class="activity-card">
+        <div class="title">Student Council</div>
+        <div class="meta">President, Vice President, Marketing &middot; 3 yrs</div>
+      </div>
+      <div class="activity-card">
+        <div class="title">Prefects</div>
+        <div class="meta">Vice President, Treasurer, Member &middot; 3 yrs</div>
+      </div>
+      <div class="activity-card">
+        <div class="title">Study Support Squad (Peer Tutoring)</div>
+        <div class="meta">Leader, Tutor &middot; 2 yrs</div>
+      </div>
+      <div class="activity-card">
+        <div class="title">Broadway Theatre Arts Club</div>
+        <div class="meta">Senior Advisor, President, Member &middot; 3 yrs</div>
+      </div>
+      <div class="activity-card">
+        <div class="title">Math Honor Society</div>
+        <div class="meta">Senior Advisor, Vice President &middot; 2 yrs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="ripple-field" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <circle class="ripple" cx="200" cy="200" r="70" stroke="#d9ed92" style="animation-delay:0.3s"></circle>
+      <circle class="ripple" cx="200" cy="200" r="120" stroke="#76c893" style="animation-delay:0.9s"></circle>
+      <circle class="ripple" cx="200" cy="200" r="170" stroke="#34a0a4" style="animation-delay:1.5s"></circle>
+    </svg>
+  </div>
+  <div class="contact-inner">
+    <h2>Let's talk</h2>
+    <p>Whether it's research, an event, or just a good story &mdash; I'd love to hear from you.</p>
+    <a class="email-link" href="mailto:lancy120720@gmail.com">lancy120720@gmail.com &rarr;</a>
+    <p class="footer-note">&copy; 2026 Lancy Lin</p>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  var nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 40){
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // Mobile nav toggle
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function(){
+    var isOpen = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Scroll reveal
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    reveals.forEach(function(el){ observer.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+</script>
+
+</body>
+</html>
