@@ -1,0 +1,23 @@
+.cover-page {
+  /* 1. The Gradient (Top Layer) */
+  /* 2. The Image (Bottom Layer) */
+  background-image: 
+    linear-gradient(
+      to bottom, 
+      transparent 0%, 
+      transparent 50%, /* The fade begins halfway down. Change to 0% for an immediate fade. */
+      #3E2723 100%     /* Dark brown solid color at the bottom */
+    ),
+    url('your-picture-name.jpg');
+  
+  /* Ensures the image fills the width properly */
+  background-size: cover; 
+  background-position: top center;
+  background-repeat: no-repeat;
+  
+  /* Acts as a safety net: fills any extra space below the image with the same dark brown */
+  background-color: #3E2723; 
+  
+  /* Example height, adjust as needed for your layout */
+  min-height: 100vh; 
+}
