@@ -14,7 +14,7 @@
     --rust: #9c6644;
     --clay: #7f5539;
     --espresso: #7f5539; 
-    --espresso-2: #3E2723; /* Updated to match your new dark brown */
+    --espresso-2: #3E2723; /* Dark brown */
 
     --text-dark: #7f5539;
     --text-soft: #9c6644;
@@ -95,19 +95,21 @@
   .hero {
     position: relative;
     display: flex;
-    align-items: center;
+    /* Aligns text to the bottom of the section */
+    align-items: flex-end; 
     justify-content: flex-start; 
     text-align: left; 
     overflow: hidden;
+    padding-bottom: 12vh; /* Elevates the text slightly from the very bottom edge */
     
-    /* Integrated Cover Page Background CSS */
-    background-color: #3E2723; /* Acts as a safety net */
+    background-color: #3E2723; /* Safety net color */
     background-image: 
       linear-gradient(
         to bottom, 
         transparent 0%, 
-        transparent 50%, 
-        #3E2723 100%
+        transparent 25%, /* Starts fading here */
+        #3E2723 60%,    /* Reaches 100% solid brown at 60% down the screen */
+        #3E2723 100%    /* Stays solid brown through the rest of the bottom */
       ),
       url('photo2.jpg');
     background-size: cover; 
@@ -120,8 +122,7 @@
     z-index: 2;
     max-width: 800px;
     padding: 0 8vw;
-    /* Adding slight top margin to push text down if it overlaps light parts of the image */
-    margin-top: 20vh; 
+    /* The text will naturally grow upward from the bottom, staying in the solid brown area */
   }
   .hero-flourish {
     width: 140px;
@@ -143,7 +144,6 @@
     margin: 0 0 12px;
     font-weight: 800; 
     color: var(--cream);
-    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
   }
   .hero-sub {
     font-family: var(--formal);
@@ -152,7 +152,6 @@
     color: var(--parchment);
     max-width: 500px;
     margin: 0 0 34px 0;
-    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.3);
   }
   .hero-cta {
     display: inline-flex;
@@ -411,9 +410,11 @@
     .about-grid { grid-template-columns: 1fr; }
     .photo-wrap { width: 160px; height: 160px; }
     section { padding: 76px 8vw; }
+    .hero {
+      padding-bottom: 14vh;
+    }
     .hero-inner { 
       padding: 0 6vw; 
-      margin-top: 30vh; /* Pushes text further down on mobile to clear the image */
     }
   }
 </style>
