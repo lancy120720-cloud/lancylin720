@@ -25,15 +25,31 @@
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  /* Universal Box Sizing */
+  * { 
+    box-sizing: border-box; 
+  }
+  
+  html { 
+    scroll-behavior: smooth; 
+  }
+
+  /* Hard reset to ensure absolutely zero white space on edges */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+  }
+
   body {
-    margin: 0;
     font-family: var(--sans);
     color: var(--text-dark);
     background: var(--cream);
     line-height: 1.65;
   }
+
   @media (prefers-reduced-motion: reduce){
     html { scroll-behavior: auto; }
     * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
@@ -95,34 +111,37 @@
   .hero {
     position: relative;
     display: flex;
-    /* Aligns text to the bottom of the section */
     align-items: flex-end; 
     justify-content: flex-start; 
     text-align: left; 
     overflow: hidden;
-    padding-bottom: 12vh; /* Elevates the text slightly from the very bottom edge */
+    padding-bottom: 12vh;
     
-    background-color: #3E2723; /* Safety net color */
+    /* Using 100% instead of 100vw to prevent horizontal scrollbars on Windows */
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    
+    background-color: #3E2723; 
     background-image: 
       linear-gradient(
         to bottom, 
         transparent 0%, 
-        transparent 25%, /* Starts fading here */
-        #3E2723 60%,    /* Reaches 100% solid brown at 60% down the screen */
-        #3E2723 100%    /* Stays solid brown through the rest of the bottom */
+        transparent 25%, 
+        #3E2723 60%,    
+        #3E2723 100%    
       ),
       url('photo2.jpg');
+    /* 'cover' scales the background to fill the entire container, cropping overflow to prevent white space */
     background-size: cover; 
-    background-position: top center;
+    background-position: center center; 
     background-repeat: no-repeat;
-    min-height: 100vh;
   }
   .hero-inner {
     position: relative;
     z-index: 2;
     max-width: 800px;
     padding: 0 8vw;
-    /* The text will naturally grow upward from the bottom, staying in the solid brown area */
   }
   .eyebrow {
     font-size: 0.85rem;
